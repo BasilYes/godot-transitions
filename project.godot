@@ -12,9 +12,13 @@ config_version=5
 
 config/name="Transitions"
 config/tags=PackedStringArray("addon", "personal")
-run/main_scene="res://addons/transactions/texture_fade.tscn"
+run/main_scene="res://test1.tscn"
 config/features=PackedStringArray("4.2")
-config/icon="res://icon.png"
+config/icon="res://addons/transactions/textures/fade_2.png"
+
+[autoload]
+
+Transactions="*res://addons/transactions/transaction.tscn"
 
 [editor_plugins]
 

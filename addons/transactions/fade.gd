@@ -6,7 +6,7 @@ signal faded_out
 
 @export var fade_in_duration: float = 1.0
 @export var fade_in_transaction_type: Tween.TransitionType = Tween.TRANS_LINEAR
-@export var fade_in_on_start: bool = false
+@export var fade_in_on_start: bool = true
 @export var fade_out_duration: float = 1.0
 @export var fade_out_transaction_type: Tween.TransitionType = Tween.TRANS_LINEAR
 var progress: float = 0.0 :
