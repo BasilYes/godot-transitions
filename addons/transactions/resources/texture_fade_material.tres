@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://l7wny16kw0k6"]
+
+[ext_resource type="Shader" path="res://addons/transactions/resources/texture_fade.gdshader" id="1_lodhl"]
+[ext_resource type="Texture2D" uid="uid://cmsrfeat3lu2d" path="res://addons/transactions/textures/fade_1.png" id="2_ga0tm"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_lodhl")
+shader_parameter/progress = 0.0
+shader_parameter/invert = false
+shader_parameter/fade_texture = ExtResource("2_ga0tm")
