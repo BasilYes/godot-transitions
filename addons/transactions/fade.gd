@@ -25,12 +25,7 @@ func _ready() -> void:
 			fade_in()
 	else:
 		layout_mode = 1
-		set_anchors_preset(PRESET_FULL_RECT)
-		set_size.call_deferred(
-			Vector2i(
-			ProjectSettings.get_setting("display/window/size/viewport_width"),
-			ProjectSettings.get_setting("display/window/size/viewport_height"),
-			))
+		set_anchors_preset(PRESET_FULL_RECT, true)
 		add_to_group("fade", true)
 
 
