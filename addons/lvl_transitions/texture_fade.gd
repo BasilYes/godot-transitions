@@ -6,7 +6,7 @@ extends Fade
 func _ready() -> void:
 	super()
 	if Engine.is_editor_hint() and not material:
-		material = preload("res://addons/transactions/resources/texture_fade_material.tres")
+		material = preload("res://addons/lvl_transitions/resources/texture_fade_material.tres")
 
 
 func _update_progress(value: float) -> void:

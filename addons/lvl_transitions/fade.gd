@@ -25,8 +25,10 @@ func _ready() -> void:
 			fade_in()
 	else:
 		layout_mode = 1
-		set_anchors_preset(PRESET_FULL_RECT, true)
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+		color = Color(0, 0, 0)
 		add_to_group("fade", true)
+		set_anchors_preset(PRESET_FULL_RECT, true)
 
 
 func fade_in():
