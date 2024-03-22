@@ -16,7 +16,7 @@ var progress: float = 0.0 :
 	set(value):
 		progress = value
 		_update_progress(value)
-
+var tween: Tween
 
 func _ready() -> void:
 	visible = false
@@ -25,16 +25,19 @@ func _ready() -> void:
 			fade_in()
 	else:
 		layout_mode = 1
-		mouse_filter = Control.MOUSE_FILTER_IGNORE
+		#mouse_filter = Control.MOUSE_FILTER_IGNORE
 		color = Color(0, 0, 0)
 		add_to_group("fade", true)
 		set_anchors_preset(PRESET_FULL_RECT, true)
 
 
 func fade_in():
+	if tween:
+		tween.kill()
+	else:
+		progress = 1.0
 	visible = true
-	progress = 1.0
-	var tween: Tween = get_tree().create_tween()
+	tween = get_tree().create_tween()
 	tween.set_trans(fade_in_transaction_type)
 	tween.set_ease(fade_in_ease_type)
 	tween.tween_property(self, "progress", 0.0, fade_in_duration)
@@ -44,9 +47,12 @@ func fade_in():
 
 
 func fade_out():
+	if tween:
+		tween.kill()
+	else:
+		progress = 0.0
 	visible = true
-	progress = 0.0
-	var tween: Tween = get_tree().create_tween()
+	tween = get_tree().create_tween()
 	tween.set_trans(fade_out_transaction_type)
 	tween.set_ease(fade_out_ease_type)
 	tween.tween_property(self, "progress", 1.0, fade_in_duration)
