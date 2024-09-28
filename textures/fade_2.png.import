@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dxkv4ebxoa21y"
-path="res://.godot/imported/fade_2.png-b7d3ae65950004549b0827077d8ee9eb.ctex"
+path="res://.godot/imported/fade_2.png-f20a143927d69c42e95550af853c3482.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/lvl_transitions/textures/fade_2.png"
-dest_files=["res://.godot/imported/fade_2.png-b7d3ae65950004549b0827077d8ee9eb.ctex"]
+source_file="res://addons/godot-transitions/textures/fade_2.png"
+dest_files=["res://.godot/imported/fade_2.png-f20a143927d69c42e95550af853c3482.ctex"]
 
 [params]
 

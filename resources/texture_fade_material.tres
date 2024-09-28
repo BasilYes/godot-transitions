@@ -1,11 +1,9 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://l7wny16kw0k6"]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://l7wny16kw0k6"]
 
-[ext_resource type="Shader" path="res://addons/lvl_transitions/resources/texture_fade.gdshader" id="1_lodhl"]
-[ext_resource type="Texture2D" uid="uid://cmsrfeat3lu2d" path="res://addons/lvl_transitions/textures/fade_1.png" id="2_ga0tm"]
+[ext_resource type="Shader" path="res://addons/godot-transitions/resources/texture_fade.gdshader" id="1_w3x6p"]
 
 [resource]
 resource_local_to_scene = true
-shader = ExtResource("1_lodhl")
-shader_parameter/progress = 0.0
-shader_parameter/invert = true
-shader_parameter/fade_texture = ExtResource("2_ga0tm")
+shader = ExtResource("1_w3x6p")
+shader_parameter/progress = null
+shader_parameter/invert = false
