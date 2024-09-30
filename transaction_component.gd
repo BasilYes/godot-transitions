@@ -1,5 +1,5 @@
 @tool
-class_name TransactionComponent
+class_name TransitionComponent
 extends Node
 
 enum Action {
