@@ -18,8 +18,8 @@ func _ready() -> void:
 	default = Fade.new()
 	fade_in = default
 	add_child(default)
-	default.set_anchors_preset(Control.PRESET_FULL_RECT)
 	default.size = get_viewport().get_visible_rect().size
+	default.set_anchors_preset(Control.PRESET_FULL_RECT)
 	default.color = Color.BLACK
 
 func set_fade_in(
