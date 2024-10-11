@@ -33,6 +33,14 @@ func _ready() -> void:
 		multiplayer_spawner = get_tree().current_scene
 	if DisplayServer.get_name() == "headless":
 		is_headless = true
+		var lvl_path: String = ProjectSettings.get_setting(
+			"easy_multiplayer/server_scene", ""
+		)
+		if not multiplayer_spawner:
+			return
+		if lvl_path:
+			var new_lvl: Node = load(lvl_path).instantiate()
+			multiplayer_spawner.add_child(new_lvl)
 		return
 	layer = 101
 	default_fade = Fade.new()
