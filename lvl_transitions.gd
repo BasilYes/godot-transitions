@@ -2,6 +2,8 @@ extends CanvasLayer
 
 signal level_swap
 signal level_swaped
+signal faded_out
+signal faded_in
 
 var level_swaping: bool = false :
 	set(value):
@@ -12,11 +14,12 @@ var level_swaping: bool = false :
 			level_swaped.emit()
 
 var default_fade: Fade = null
-var fade_in: Fade = null
-var fade_out: Fade = null
+var fade_in_scene: Fade = null
+var fade_out_scene: Fade = null
 
 var is_headless: bool = false
 var multiplayer_spawner: MultiplayerSpawner = null
+var _manual_fade_in: bool = false
 
 func _ready() -> void:
 	if has_node("/root/EMSession"):
@@ -45,11 +48,24 @@ func _ready() -> void:
 		return
 	layer = 101
 	default_fade = Fade.new()
-	fade_in = default_fade
+	fade_in_scene = default_fade
 	add_child(default_fade)
 	default_fade.size = get_viewport().get_visible_rect().size
 	default_fade.set_anchors_preset(Control.PRESET_FULL_RECT)
 	default_fade.color = Color.BLACK
+
+
+func manual_fade_in() -> void:
+	if _manual_fade_in:
+		return
+	_manual_fade_in = true
+	fade_in_scene.fade_in_on_start = false
+	if fade_in_scene.tween:
+		fade_in_scene.tween.kill()
+		fade_in_scene.progress = 1.0
+	await faded_in
+	_manual_fade_in = false
+
 
 func set_fade_in(
 		fade_scene: PackedScene,
@@ -59,7 +75,7 @@ func set_fade_in(
 	if key:
 		node = get_node_or_null(key)
 	if node is Fade:
-		fade_in = node
+		fade_in_scene = node
 		return
 	node = fade_scene.instantiate()
 	if not node is Fade:
@@ -83,7 +99,7 @@ func swap_level(
 		push_warning("Level swap denied because other levels swaping in progress")
 		return
 	level_swaping = true
-	await _pre_swap(fade_scene, key)
+	await fade_out(fade_scene, key)
 	if multiplayer_spawner:
 		var new_lvl: Node = load(lvl_path).instantiate()
 		multiplayer_spawner.add_child(new_lvl)
@@ -95,17 +111,49 @@ func swap_level(
 				or get_tree().current_scene.scene_file_path != lvl_path:
 			await get_tree().node_added
 		await get_tree().current_scene.ready
-	await _post_swap()
+		print("ababa")
+	if _manual_fade_in:
+		await faded_in
+	else:
+		await fade_in()
 	level_swaping = false
 
-func _pre_swap(
+
+func fade_out(
 	fade_scene: PackedScene = null,
 	key: String = ""
 ) -> void:
 	if is_headless:
 		return
+	if fade_out_scene and fade_out_scene.progress != 0:
+		if fade_out_scene.progress != 1.0:
+			await faded_out
+		return
+	fade_out_scene = find_or_create_fade(fade_scene, key)
+	await fade_out_scene.fade_out()
+	default_fade.color = fade_out_scene.color
+	faded_out.emit()
+
+func fade_in(
+		fade_scene: PackedScene = null,
+		key: String = ""
+) -> void:
+	if is_headless:
+		return
+	fade_in_scene = find_or_create_fade(fade_scene, key)
+	if fade_out_scene and fade_in_scene != fade_out_scene:
+		fade_out_scene.visible = false
+	await fade_in_scene.fade_in()
+	fade_in_scene.visible = false
+	faded_in.emit()
+
+
+func find_or_create_fade(
+		fade_scene: PackedScene = null,
+		key: String = ""
+) -> Fade:
 	var node: Node = null
-	fade_out = null
+	var fade_node: Fade = null
 	if key:
 		node = get_node_or_null(key)
 	if not node and fade_scene:
@@ -122,17 +170,7 @@ func _pre_swap(
 		else:
 			push_warning("fade_scene don't extends Fade")
 	if node is Fade:
-		fade_out = node
-	if not fade_out:
-		fade_out = default_fade
-	# fade_out.visible = true
-	await fade_out.fade_out()
-	default_fade.color = fade_out.color
-
-func _post_swap() -> void:
-	if is_headless:
-		return
-	if fade_in != fade_out:
-		fade_out.visible = false
-	await fade_in.fade_in()
-	fade_in.visible = false
+		fade_node = node
+	if not fade_node:
+		fade_node = default_fade
+	return fade_node
