@@ -8,7 +8,7 @@ enum Action {
 }
 
 @export var instigator: Node
-@export var signal_name: String = "ready"
+@export var signal_name: String = "pressed"
 @export var action: Action = Action.FADE_OUT :
 	set(value):
 		action = value
