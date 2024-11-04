@@ -111,7 +111,6 @@ func swap_level(
 				or get_tree().current_scene.scene_file_path != lvl_path:
 			await get_tree().node_added
 		await get_tree().current_scene.ready
-		print("ababa")
 	if _manual_fade_in:
 		await faded_in
 	else:
