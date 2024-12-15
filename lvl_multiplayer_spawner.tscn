@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://3ltdyjmo7np0"]
-
-[ext_resource type="Script" path="res://addons/godot-transitions/lvl_multiplayer_spawner.gd" id="1_6iryi"]
-
-[node name="LvlMultiplayerSpawner" type="MultiplayerSpawner"]
-spawn_path = NodePath(".")
-script = ExtResource("1_6iryi")
