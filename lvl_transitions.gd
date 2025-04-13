@@ -104,10 +104,10 @@ func swap_level(
 			await new_lvl.ready
 	else:
 		await get_tree().change_scene_to_file(lvl_path)
-		while not get_tree().current_scene\
-				or get_tree().current_scene.scene_file_path != lvl_path:
-			await get_tree().node_added
-		await get_tree().current_scene.ready
+		while not get_tree().current_scene:
+			await get_tree().physics_frame
+		if not get_tree().current_scene.is_node_ready():
+			await get_tree().current_scene.ready
 	if _manual_fade_in:
 		await faded_in
 	else:
