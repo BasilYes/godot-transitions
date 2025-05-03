@@ -20,6 +20,7 @@ var fade_scene: PackedScene = null :
 			key = fade_scene.resource_name
 var key: String = ""
 var lvl_path: String = ""
+var lvl_scene: PackedScene = null
 
 func _ready() -> void:
 	if not instigator:
@@ -30,11 +31,11 @@ func _ready() -> void:
 		return
 	match action:
 		Action.FADE_OUT:
-			if not FileAccess.file_exists(lvl_path):
+			if not FileAccess.file_exists(lvl_path) and not lvl_scene:
 				return
 			instigator.connect(signal_name,
 				LvlTransitions.swap_level.bind(
-					lvl_path, fade_scene, key
+					lvl_scene, lvl_path, fade_scene, key
 			))
 		Action.FADE_IN:
 			instigator.connect(signal_name,
@@ -52,5 +53,11 @@ func _get_property_list() -> Array[Dictionary]:
 				"type": TYPE_STRING,
 				"hint": PROPERTY_HINT_FILE,
 				"hint_string": "*.tscn,*.scn",
+			})
+			result.append({
+				"name": "lvl_scene",
+				"type": TYPE_OBJECT,
+				"hint": PROPERTY_HINT_RESOURCE_TYPE,
+				"hint_string": "PackedScene",
 			})
 	return result

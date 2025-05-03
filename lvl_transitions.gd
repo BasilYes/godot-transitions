@@ -88,6 +88,7 @@ func set_fade_in(
 
 @rpc("authority", "call_remote", "reliable")
 func swap_level(
+		lvl_scene: PackedScene,
 		lvl_path: String,
 		fade_scene: PackedScene = null,
 		key: String = ""
@@ -103,7 +104,10 @@ func swap_level(
 		if not new_lvl.is_node_ready():
 			await new_lvl.ready
 	else:
-		await get_tree().change_scene_to_file(lvl_path)
+		if lvl_scene:
+			get_tree().change_scene_to_packed(lvl_scene)
+		else:
+			get_tree().change_scene_to_file(lvl_path)
 		while not get_tree().current_scene:
 			await get_tree().physics_frame
 		if not get_tree().current_scene.is_node_ready():
