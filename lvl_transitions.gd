@@ -22,16 +22,8 @@ var multiplayer_spawner: MultiplayerSpawner = null
 var _manual_fade_in: bool = false
 
 func _ready() -> void:
-	if has_node("/root/EMSession"):
-		var session: Node = get_node("/root/EMSession")
-		if ProjectSettings.get_setting("easy_multiplayer/multiplayer_type", 0) == 0:
-			if not get_tree().current_scene is MultiplayerSpawner:
-				get_tree().change_scene_to_packed.call_deferred(
-						load("uid://c5h0xfj8w4uda")
-				)
-				while not get_tree().current_scene is MultiplayerSpawner:
-					await get_tree().node_added
-			multiplayer_spawner = get_tree().current_scene
+	if get_tree().current_scene is MultiplayerSpawner:
+		multiplayer_spawner = get_tree().current_scene
 	if DisplayServer.get_name() == "headless":
 		is_headless = true
 		var lvl_path: String = ProjectSettings.get_setting(
